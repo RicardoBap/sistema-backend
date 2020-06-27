@@ -1,5 +1,6 @@
 package com.ricbap.sistema.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ricbap.sistema.domain.Cliente;
 import com.ricbap.sistema.dto.ClienteDTO;
+import com.ricbap.sistema.dto.ClienteNewDTO;
 import com.ricbap.sistema.services.ClienteService;
 
 @RestController
@@ -31,17 +34,15 @@ public class ClienteResource {
 		Cliente cliente = clienteService.buscar(id);
 		return ResponseEntity.ok().body(cliente);
 	}
-	/*
+	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserir(@Valid @RequestBody ClienteDTO clienteDto) {
-		
-		Cliente cliente = clienteService.fromDTO(clienteDto);
-		
+	public ResponseEntity<Void> inserir(@Valid @RequestBody ClienteNewDTO clienteDto) {		
+		Cliente cliente = clienteService.fromDTO(clienteDto);		
 		cliente = clienteService.inserir(cliente);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(cliente.getId()).toUri();
 		return ResponseEntity.created(uri).build();
-	}*/
+	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> atualizar(@Valid @RequestBody ClienteDTO clienteDto, @PathVariable Integer id) {
