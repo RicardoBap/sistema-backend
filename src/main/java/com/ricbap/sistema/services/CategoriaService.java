@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.ricbap.sistema.domain.Categoria;
+import com.ricbap.sistema.dto.CategoriaDTO;
 import com.ricbap.sistema.repositories.CategoriaRepository;
 import com.ricbap.sistema.services.exceptions.DataIntegrityException;
 import com.ricbap.sistema.services.exceptions.ObjectNotFoundException;
@@ -55,6 +56,10 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer pagina, Integer linhasPorPagina, String campos, String direcao) {
 		PageRequest pageRequest = PageRequest.of(pagina, linhasPorPagina, Direction.valueOf(direcao), campos);
 		return categoriaRepository.findAll(pageRequest);
+	}
+	
+	public Categoria fromDTO(CategoriaDTO categoriaDto) {
+		return new Categoria(categoriaDto.getId(), categoriaDto.getNome());
 	}
 
 }
