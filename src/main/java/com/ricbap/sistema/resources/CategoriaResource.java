@@ -1,6 +1,8 @@
 package com.ricbap.sistema.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ricbap.sistema.domain.Categoria;
+import com.ricbap.sistema.dto.CategoriaDTO;
 import com.ricbap.sistema.services.CategoriaService;
 
 @RestController
@@ -46,6 +49,14 @@ public class CategoriaResource {
 	public ResponseEntity<Void> remover(@PathVariable Integer id) {
 		categoriaService.remover(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> buscarTodas() {
+		List<Categoria> listaCategoria = categoriaService.buscarTodas();
+		List<CategoriaDTO> listaDTO = listaCategoria.stream()
+				.map(c -> new CategoriaDTO(c)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listaDTO);
 	}
 
 }
